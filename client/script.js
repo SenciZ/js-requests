@@ -9,7 +9,7 @@
     Use querySelector to select that button and save it to a variable called sayHelloButton
 */
 
-// CODE HERE
+const sayHelloButton = document.getElementById('say-hello-button')
 
 
 // PROBLEM 2
@@ -19,7 +19,12 @@
     Attach a mouseover event to sayHelloButton that calls the function you wrote
 */
 
-// CODE HERE
+const changeBackground = (e)=>{
+e.target.style.backgroundColor = 'black'
+e.target.style.color = 'white'
+}
+
+sayHelloButton.addEventListener('mouseover', changeBackground)
 
 
 // PROBLEM 3
@@ -31,7 +36,14 @@
     Attach another listener that fires your second function when the mouseout event occurs on the button
 */
 
-// CODE HERE
+const changeBackgroundBack = (e)=>{
+    e.target.style.backgroundColor = '#efefef'
+    e.target.style.color = 'black'
+    }
+
+sayHelloButton.addEventListener('mouseout', changeBackgroundBack)
+
+    
 
 
 // PROBLEM 4
@@ -52,7 +64,7 @@ const sayHello = () => {
 }
 // DO NOT EDIT FUNCTION
 
-// CODE HERE
+sayHelloButton.addEventListener("click", sayHello)
 
 
 // PROBLEM 5 
@@ -67,11 +79,24 @@ const sayHello = () => {
 */ 
 
 const ohMy = () => {
-    // YOUR CODE HERE
+    axios.get('http://localhost:3000/animals')
+    .then(response => {
+        for(let i = 0; i<response.data.length; i++){
+            const para = document.createElement('p')
+            para.textContent = `${response.data[i]}`
+            document.body.appendChild(para)
+        }
+    })
 }
 
 document.getElementById('animals-button').addEventListener('click', ohMy)
 
+
+/* 
+    Back in the ohMy function on Problem 5, replace the console log in the promise's callback with a for loop that loops over res.data. 
+
+    On each iteration of the loop, create a new p element. Set its textContent equal the string at the current index (i) and then append the new p element onto the document's body. 
+*/
 
 // PROBLEM 6 
 /*
@@ -87,8 +112,22 @@ document.getElementById('animals-button').addEventListener('click', ohMy)
 */
 
 const repeatMyParam = () => {
-    //YOUR CODE HERE
+    axios.get('http://localhost:3000/repeat/repeat')
+    .then(response=>{
+        console.log(response.data)
+        const repeatText = document.getElementById('repeat-text')
+        repeatText.style.display = 'flex';
+        repeatText.textContent = response.data
+        console.log(repeatText)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+
 }
+
+const repeatMyParamBtn = document.getElementById('repeat-button')
+repeatMyParamBtn.addEventListener('click', repeatMyParam)
 
 // PROBLEM 7
 /*
@@ -110,7 +149,24 @@ const repeatMyParam = () => {
     Outside of your new function, select the button with the id "query-button" and add a click event listener that calls your function.
 */
 
-// CODE HERE
+/*
+    In the function that you wrote for Problem 8, change the URL to test a couple different scenarios. 
+
+    1: Send no queries on the URL -- what happened? 
+
+    2: Send more than 1 query on the URL -- what happened? 
+*/
+
+const choiceQuery = (e) =>{
+    axios.get(`http://localhost:3000/query-test?yes=true&animals=cool`)
+    .then(response => {
+        console.log(response.data)
+    })
+    .catch(err=>{console.log(err)})
+}
+
+const queryBtn = document.getElementById("query-button")
+queryBtn.addEventListener('click', choiceQuery)
 
 
 
